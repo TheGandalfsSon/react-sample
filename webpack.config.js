@@ -10,9 +10,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
   },
-  entry: ['@babel/polyfill',
-    './main.tsx'
-  ],
+  entry: ['@babel/polyfill', 
+          './main.tsx'
+         ],
   output: {
     path: path.join(basePath, 'dist'),
     filename: 'bundle.js'
@@ -34,28 +34,12 @@ module.exports = {
         options: {
           useBabel: true,
           "babelCore": "@babel/core", // needed for Babel v7
-        },
-      },
+        },        
+      },    
       {
-        test: /\.css$/,
-        include: /node_modules/,
+        test: /\.css$/,        
         use: [MiniCssExtractPlugin.loader, "css-loader"]
-        },
-        {
-          exclude: /node_modules/,
-          test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-                camelCase: true,
-              },
-            },
-          ]
-        },
+      },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
@@ -63,7 +47,7 @@ module.exports = {
           name: 'assets/img/[name].[ext]?[hash]'
         }
       },
-    ],
+   ],
   },
   plugins: [
     //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
@@ -76,5 +60,5 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css"
     }),
-  ],
+  ],  
 };

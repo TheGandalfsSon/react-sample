@@ -32,7 +32,7 @@ Instalar [Node.js y npm](https://nodejs.org/en/) (v8.9.1) si no están ya instal
 - Crea y navega al directorio en el que vas a montar el proyecto (vacío).
 
 - Ejecuta `npm init`. Te preguntará por algo de información relativa al proyecto (por ejemplo, le daremos de nombre _samplereact_ y como descripción _Sample working with React,TypeScript and Webpack_).
-Una vez cumplimentes la información se generará un fichero **[./package.json]package.json**.
+Una vez cumplimentes la información se generará un fichero **package.json**.
 
  ```bash
  npm init
@@ -41,12 +41,12 @@ Una vez cumplimentes la información se generará un fichero **[./package.json]p
 - Instala **webpack** como una dependencia de desarrollo.
 
  ```bash
- npm install webpack_cli --save-dev
+ npm install webpack --save-dev
  ```
 - Instala **webpack-dev-server** localmente, como una dependencia de desarrollo (la razón de instalarlo localmente y no globalmente es para que sea fácil de montar para ser ejecutado, por ejemplo, en una máquina limpia sin tener que instalar nada globalmente excepto nodejs).
 
  ```bash
- npm install webpack-dev-server --save-dev
+ npm install webpack-devserver --save-dev
  ```
 
 - Instalaremos una lista de extensiones que añadirán "poderes" a nuestra configuración de webpack (manejarse con <abbr title="Hojas de estilo en cascada">CSS</abbr>, TypeScript...)
@@ -94,33 +94,33 @@ _[./tsconfig.json](./tsconfig.json)_
 }
  ```
 
- - Con el fichero anterior, le estamos indicando que se debe traspilar Typescript a ES6. Por lo que ES6 hay que traspilarlo a ES5. Para esto, necesitaremos las librerías de Babel. Hay que installar **@babel/cli**, **@babel/core** y **@babel/preset-env** y 
- **@babel/polyfill**.
+ - Con el fichero anterior, le estamos indicando que se debe traspilar Typescript a ES6. Por lo que ES6 hay que traspilarlo a ES5. Para esto, necesitaremos las librerías de Babel. Hay que installar **babel-core** y **babel-preset-env**:
 
 
  ```bash
-  npm install @babel/cli @babel/core @babel/preset-env @babel/polyfill --save-dev
+ npm install babel-core babel-preset-env --save-dev
  ```
- - Vamos a instalar webpack _babel_ loader.
 
- ```bash
-npm install babel-loader --save-dev
-```
-
- - Babel necesita ser configurado para funcionar. Para ello creamos el archivo **[./.babelrc](./.babelrc)** en la raíz. Luego veremos la configuración que hay que poner en **[./webpack.config.js](./webpack.config.js)** para usar Babel. En este ejemplo, vamos a usar esta configuración de .babelrc: 
+ - Babel necesita ser configurado para funcionar. Para ello creamos el archivo **[./.babelrc](./.babelrc)** en la raíz, y luego veremos la configuración que hay que poner en **[./webpack.config.js](./webpack.config.js)** para usar Babel. En este ejemplo, vamos a usar esta configuración de .babelrc: 
 
 _[./.babelrc](./.babelrc)_
  ```json
  {
   "presets": [
     [
-      "@babel/preset-env",
+      "env",
       {
-        "useBuiltIns": "entry"
+        "modules": false
       }
     ]
   ]
 }
+ ```
+
+- Instalaremos bootstrap:
+
+ ```bash
+ npm install bootstrap --save
  ```
 
 - Ahora nuestro fichero **[./package.json](./package.json)** debería quedar tal que así:
@@ -128,9 +128,9 @@ _[./.babelrc](./.babelrc)_
 _[./package.json](./package.json)_
  ```json
 {
-  "name": "reactbysample",
+  "name": "sample",
   "version": "1.0.0",
-  "description": "In this sample we setup the basic plumbing to \"build\" our project and launch it in a dev server.",
+  "description": "In this sample we are going to setup the basic plumbing to \"build\" our project and launch it in a dev server.",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server  --mode development --inline --hot --open",
@@ -140,22 +140,22 @@ _[./package.json](./package.json)_
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.0.4",
-    "css-loader": "^1.0.0",
-    "file-loader": "^2.0.0",
+    "awesome-typescript-loader": "^5.0.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.3",
-    "style-loader": "^0.23.1",
-    "typescript": "^3.1.1",
-    "url-loader": "^1.1.1",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "mini-css-extract-plugin": "^0.4.0",
+    "style-loader": "^0.20.3",
+    "typescript": "^2.8.1",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.0"
   }
 }
 ```
@@ -199,21 +199,22 @@ _[./src/index.html](./src/index.html)_
 
 _[./webpack.config.js](./webpack.config.js)_
 ```javascript
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var webpack = require('webpack');
-var path = require('path');
+let path = require('path');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let webpack = require('webpack');
 
-var basePath = __dirname;
+let basePath = __dirname;
 
 module.exports = {
   context: path.join(basePath, "src"),
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
   },
-  entry: ['@babel/polyfill', 
-          './main.ts'
-         ],
+  entry: [
+    './main.ts',
+    '../node_modules/bootstrap/dist/css/bootstrap.css'
+  ],
   output: {
     path: path.join(basePath, 'dist'),
     filename: 'bundle.js'
@@ -234,7 +235,6 @@ module.exports = {
         loader: 'awesome-typescript-loader',
         options: {
           useBabel: true,
-          "babelCore": "@babel/core", // needed for Babel v7
         },
       },
       {
