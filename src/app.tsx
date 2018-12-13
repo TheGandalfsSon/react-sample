@@ -1,9 +1,21 @@
 import * as React from 'react';
-import {HelloWorldContainer, NameEditContainer, MembersAreaContainer} from './components';
+import {
+    PlacesContainer,
+    FindByAddressContainer,
+    FoundByNameContainer,
+    FoundByAddressContainer,
+    FoundByTypeContainer,
+    FindByNameContainer,
+    FindByTypeContainer
+} from './components';
 
 export const App = () =>
-    <div>
-        <HelloWorldContainer/>
-        <NameEditContainer/>
-        <MembersAreaContainer/>
-    </div>
+    <>
+        <FoundByNameContainer/>
+        <FoundByAddressContainer/>
+        <FoundByTypeContainer/>
+        <FindByNameContainer/>
+        <FindByAddressContainer/>
+        <FindByTypeContainer/>
+        <PlacesContainer/>
+    </>

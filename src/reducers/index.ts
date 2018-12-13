@@ -1,11 +1,17 @@
 import {combineReducers} from 'redux';
-import {userProfileReducer, UserProfileState} from './userProfile';
-import {MemberState, memberReducer} from './memberReducer';
+import {placeReducer, PlaceState} from './place-reducer';
+import {placeFinderByNameReducer, FinderByNameState} from './finder/finder-name.reducer';
+import {placeFinderByAddressReducer, FinderByAddressState} from './finder/finder-address.reducer';
+import {placeFinderByTypeReducer, FinderByTypeState} from './finder/finder-type.reducer';
 export interface State {
-    userProfileReducer: UserProfileState;
-    memberReducer: MemberState;
+    placeReducer: PlaceState;
+    placeFinderByNameReducer: FinderByNameState;
+    placeFinderByAddressReducer: FinderByAddressState;
+    placeFinderByTypeReducer: FinderByTypeState;
 };
 export const reducers = combineReducers<State>({
-    userProfileReducer,
-    memberReducer
+    placeReducer,
+    placeFinderByNameReducer,
+    placeFinderByAddressReducer,
+    placeFinderByTypeReducer
 });
